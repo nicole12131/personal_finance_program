@@ -13,7 +13,7 @@
         # use forex python to convert currency, change currency in user csv to input currency (numbers are still stored is USD, but when printed, use conversion to find out actual amount)
     # if user is offline
         # use currencyconverter, but first ask user if they want to proceed, as conversions may be out of date
-        # if user wants to continue, change currency in user csv to input currency (though, correct amounts will still be saved in user CSV, it will just possibly display wrong on userend)
+        # if user wants to continue, change currency in user csv to input currency (though, correct amounts will still be saved in user CSV, it will just possibly display wrong on frontend)
 
 # define function convert_currency():
     # have user input what currency they want to convert from, and what currency they want to convert to

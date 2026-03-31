@@ -3,5 +3,14 @@
 # import numpy, maybe pandas
 
 # define function make pie charts (come up with a better name)
+    # this graph is going to be used for displaying total amount of budget spent, how much each catergory takes up in the budget how much each atergory takes up in expenses, and a few other things
+    # take in what mode the function is being run in depending on what it is being used for
+    # take in values, do some math if necessary
+    # return pie chart using pandas
 
-# define function make_graph
+
+
+# define function make_graph():
+    # this graph is going to be for tracking expenses/income over time
+    # take info from user CSV, and order based off of input date
+    # plug those numbers into pandas to generate a pretty-ish chart, return and print on screen
