@@ -1,5 +1,7 @@
 # LV 1st Income and Expense Tracking
 # import csv
+import csv
+import tkinter as tk
 
 # Create empty list/dictionary to store income entries in memory
 # Each income entry will have: date, amount, source
@@ -16,7 +18,6 @@
 # 4. Exit
 # Prompt user to input a number (menu_option)
 
-
 #   If user chooses 1:
 #       take them to add incomefunciton
 
@@ -30,6 +31,35 @@
 #       take user to exit
 
 
+def main():
+    print("Welcome to Simple Grade Book!")
+
+    while True:
+        # Display menu
+        print("\nChoose an option:")
+        print("[1] Add New Student")
+        print("[2] Add Grade to Student")
+        print("[3] View Student Record")
+        print("[4] View All Students")
+        print("[5] Class Summary")
+        print("[6] Exit")
+
+        choice = input("Enter your choice (1-6): ").strip()
+
+        if choice == "1":
+#           take them to add incomefunciton            
+        elif choice == "2":
+#           take them to add incomefunciton  
+        elif choice == "3":
+#           take them to add incomefunciton  
+        elif choice == "4":
+            print("Goodbye! Thank you for using Simple Grade Book!")
+            break
+        else:
+            print("Invalid input. Please choose a number from 1 to 6.")
+
+# Run the program
+main()
 
 # function error handling
 # For all user inputs:
@@ -48,6 +78,7 @@
     # Display totals in labels or table format
 # Exit:
     # Save data to CSV and close GUI window
+
 
 # Functions
 
@@ -79,6 +110,13 @@
         # Add entry to expense entries list/dictionary in memory
         # Display confirmation message: "Expense added successfully"
     # Return to main menu
+
+def add_expense():
+    date_expense = int(input("Enter date of expense (format YYYY-MM-DD):"))
+    amount = int(input("Enter amount (numeric):"))
+    
+  
+
 
 # View Totals
     # Prompt user to input start date (format YYYY-MM-DD)
