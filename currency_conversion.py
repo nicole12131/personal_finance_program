@@ -2,6 +2,7 @@
 
 from forex_python.converter import CurrencyRates
 from currency_converter import CurrencyConverter
+import customtkinter as CTk
 import socket
 
 
@@ -43,6 +44,7 @@ def is_connected():
 
 
 # Note: Update these so they will work with a tkinter GUI.  It will take an input from the GUI, and return a value for the GUI to display. 
+# For all of these, use CTkEntry items to get the text input. For the general_conversion_menu, use OptionMenu.
 def update_currency_offline(user_details,new_currency):
     
     c_offline = CurrencyConverter()
@@ -51,7 +53,7 @@ def update_currency_offline(user_details,new_currency):
     except:
         return "Invalid currency. Please try again."
     else:
-        user_details['currency'] = new_currency
+        user_details.currency = new_currency
         return f"Currency updated to {new_currency}."
                 
         
@@ -62,7 +64,7 @@ def update_currency_online(user_details,new_currency):
             except:
                 return "Invalid currency. Please try again."
             else:
-                user_details['currency'] = new_currency
+                user_details.currency = new_currency
                 return f"Currency updated to {new_currency}."
                 
 def convert_currency_offline(from_cur,to_cur,amount):
@@ -87,14 +89,14 @@ def convert_currency_online(from_cur,to_cur,amount):
     else:
         return f"{amount} {from_cur} is approximately {converted_amount:.2f} {to_cur}."
 
-def update_cur_menu():
+def update_cur_menu(is_connected,app):
     # create a customtk window
     # check if user if online, if so, use update_currency_online, if not, use update_currency_offline
     # create a text input boxes so user can enter what they want to change their currency too
     pass
 
 
-def convert_menu():
+def convert_menu(is_connected,app):
     # create a customtk window
     # check if user is online, if so, use convert_currency_online, if not, use convert_currency_offline
     # print out returned string on window
@@ -106,4 +108,32 @@ def general_conversion_menu():
     # check if user is online, if not, print note saying that currency rates my be out of date
     # create a few buttons allowing user to choose whether they want to just convert currencies or update their currenct currency
     # based on user choice, call one of the menus
-    pass
+    app = CTk.CTk()
+    app.title("Conversion Options")
+    app.geometry("500x500")
+
+    label = CTk.CTkLabel(app, text="",fg_color = "transparent").pack()
+    connection = is_connected()
+    if connection == False:
+        label.configure(text = "You are currently disconnected from the internet. Conversion rates may be out of date.").pack()
+    else:
+        pass
+    
+    def update_command(update_button):
+        update_button.configure(text="This button works.")
+
+    def convert_command(convert_button):
+        convert_button.configure(text = "This button works.")
+
+    update_button = CTk.CTkButton(app,text="Update Current Currency",fg_color="blue")
+    update_button.configure(command = convert_command(update_button))
+
+    convert_button = CTk.CTkButton(app,text="Convert Currencies")
+    convert_button.configure(command = convert_command(convert_button),fg_color="blue")
+    
+    update_button.pack()
+    convert_button.pack()
+    app.mainloop()
+
+
+general_conversion_menu()
