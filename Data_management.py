@@ -32,9 +32,8 @@
 
 import csv
 
-
 try:
-    file = open(FILE_NAME, "x", newline="")
+    file = open("CSV\\user_details.csv", "x", newline="")
     writer = csv.writer(file)
     writer.writerow(["name", "goal", "saved"])
     file.close()
@@ -59,7 +58,7 @@ def new_goal():
         print("Invalid input")
         return
 
-    file = open(FILE_NAME, "a", newline="")
+    file = open("CSV\\user_details.csv", "a", newline="")
     writer = csv.writer(file)
     writer.writerow([name, goal, saved])
     file.close()
@@ -71,7 +70,7 @@ def saving_progress():
     found = False
     new_rows = []
 
-    file = open(FILE_NAME, "r")
+    file = open("CSV\\user_details.csv", "r")
     reader = csv.reader(file)
     next(reader)
 
@@ -108,17 +107,15 @@ def saving_progress():
         print("User not found")
         return
 
-    file = open(FILE_NAME, "w", newline="")
+    file = open("CSV\\user_details.csv", "w", newline="")
     writer = csv.writer(file)
     writer.writerow(["name", "goal", "saved"])
     writer.writerows(new_rows)
     file.close()
 
-
-# main menu
 def progress_sessions():
     while True:
-        print("\n1. New Goal")
+        print("1. New Goal")
         print("2. Add Savings")
         print("3. Exit")
 
@@ -136,6 +133,5 @@ def progress_sessions():
 
         else:
             print("Not a valid option")
-
 
 progress_sessions()
