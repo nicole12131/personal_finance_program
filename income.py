@@ -129,7 +129,7 @@ class TrackerApp:
         self.build_menu()
 
 
-    # -------- VALIDATION --------
+    # VALIDATION 
     def valid_date(self, date):
         try:
             datetime.strptime(date, "%Y-%m-%d")
@@ -138,7 +138,7 @@ class TrackerApp:
             return False
 
 
-    # -------- MENU UI --------
+    #  MENU UI 
     def build_menu(self):
         tk.Label(self.root, text="Main Menu", font=("Arial", 14)).pack(pady=10)
 
@@ -148,7 +148,7 @@ class TrackerApp:
         tk.Button(self.root, text="4. Exit", command=self.exit_app).pack(pady=5)
 
 
-    # -------- ADD INCOME --------
+    #  ADD INCOME 
     def open_income(self):
         window = tk.Toplevel(self.root)
         window.title("Add Income")
@@ -196,7 +196,7 @@ class TrackerApp:
         tk.Button(window, text="Submit", command=submit).pack()
 
 
-    # -------- ADD EXPENSE --------
+    #  ADD EXPENSE 
     def open_expense(self):
         window = tk.Toplevel(self.root)
         window.title("Add Expense")
@@ -245,7 +245,7 @@ class TrackerApp:
         tk.Button(window, text="Submit", command=submit).pack()
 
 
-    # -------- VIEW TOTALS --------
+    # VIEW TOTALS 
     def open_totals(self):
         window = tk.Toplevel(self.root)
         window.title("View Totals")
@@ -294,7 +294,7 @@ class TrackerApp:
         tk.Button(window, text="Calculate", command=calculate).pack()
 
 
-    # -------- SAVE --------
+    #  SAVE 
     def save_data(self):
         with open("john123_income.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "source"])
@@ -307,18 +307,18 @@ class TrackerApp:
             writer.writerows(self.expense_entries)
 
 
-    # -------- EXIT --------
+    # EXIT 
     def exit_app(self):
         self.save_data()
         self.root.destroy()
 
 
-# -------- MENU FUNCTION --------
+# MENU FUNCTION 
 def menu():
     root = tk.Tk()
     app = TrackerApp(root)
     root.mainloop()
 
 
-# -------- RUN --------
+# RUN 
 menu()
