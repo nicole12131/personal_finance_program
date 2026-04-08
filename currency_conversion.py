@@ -43,6 +43,7 @@ def is_connected():
 
 
 # Note: Update these so they will work with a tkinter GUI.  It will take an input from the GUI, and return a value for the GUI to display. 
+# For all of these, use CTkEntry items to get the text input. For the general_conversion_menu, use OptionMenu.
 def update_currency_offline(user_details,new_currency):
     
     c_offline = CurrencyConverter()
