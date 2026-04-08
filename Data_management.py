@@ -1,5 +1,14 @@
 # import csv
+import csv
+
 # Load data from the saving goal CSV file
+try:
+    file = open("CSV\\user_details.csv", "x", newline="")
+    writer = csv.writer(file)
+    writer.writerow(["name", "goal", "saved"])
+    file.close()
+except:
+    pass  
 
 # create function for new saving goal
 # Ask user if they already have a saving goal
@@ -9,38 +18,6 @@
         # Input current savings
     # else
         # print invalid choice 
-        
-
-# create function for saving progress
-# calcualte progress towards the goal
-
-# if user is doing a good progress 
-    # print that they are doing a good progress
-
-# if user is doing a bad progress
-    # print options to improve savings to complete the goal
-
-# Save data to the saving goal CSV file
-# display final progress 
-
-# create function to save progress between sessions 
-# if user if loged in print their current savings
-# if user want to log out save their progress to the saving goal CSV file
-
-# if a new profile is created add it to the csv file
-    # if user make progress add it to csv file
-
-import csv
-
-try:
-    file = open("CSV\\user_details.csv", "x", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    file.close()
-except:
-    pass  
-
-
 def new_goal():
     name = input("Enter your name: ")
 
@@ -65,6 +42,14 @@ def new_goal():
 
     print("Your goal was saved!")
 
+# create function for saving progress
+# calcualte progress towards the goal
+
+# if user is doing a good progress 
+    # print that they are doing a good progress
+
+# if user is doing a bad progress
+    # print options to improve savings to complete the goal
 def saving_progress():
     name = input("Enter your name: ")
     found = False
@@ -102,7 +87,8 @@ def saving_progress():
         new_rows.append(row)
 
     file.close()
-
+# if a new profile is created add it to the csv file
+    # if user make progress add it to csv file
     if found == False:
         print("User not found")
         return
@@ -113,6 +99,11 @@ def saving_progress():
     writer.writerows(new_rows)
     file.close()
 
+# create function to save progress between sessions 
+# if user if loged in print their current savings
+# if user want to log out save their progress to the saving goal CSV file
+# Save data to the saving goal CSV file
+# display final progress 
 def progress_sessions():
     while True:
         print("1. New Goal")
