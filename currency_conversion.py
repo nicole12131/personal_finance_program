@@ -43,64 +43,67 @@ def is_connected():
 
 
 # Note: Update these so they will work with a tkinter GUI.  It will take an input from the GUI, and return a value for the GUI to display. 
-def update_currency(user_details):
-    c = CurrencyRates()
+def update_currency_offline(user_details,new_currency):
+    
     c_offline = CurrencyConverter()
-    is_online = is_connected()
-    while True:
-        if is_online == False:
-            print("You are currently offline. Currency conversion rates may be out of date.")
-            new_currency = input("Enter the currency you want to change to (USD, EUR, GBP, etc.), or enter 'exit' to return:\n").upper()
-            if new_currency == 'EXIT':
-                break
-            try:
-                c_offline.convert(1, 'USD', new_currency)
-            except:
-                print("Invalid currency. Please try again.")
-            else:
-                user_details['currency'] = new_currency
-                print(f"Currency updated to {new_currency}.")
-                break
-        else:
-            new_currency = input("Enter the currency you want to change to (USD, EUR, GBP, etc.), or enter 'exit' to return:\n").upper()
-            if new_currency == 'EXIT':
-                break
+    try:
+        c_offline.convert(1, 'USD', new_currency)
+    except:
+        return "Invalid currency. Please try again."
+    else:
+        user_details['currency'] = new_currency
+        return f"Currency updated to {new_currency}."
+                
+        
+def update_currency_online(user_details,new_currency):
+            c = CurrencyRates()
             try:
                 c.get_rate('USD', new_currency)
             except:
-                print("Invalid currency. Please try again.")
+                return "Invalid currency. Please try again."
             else:
                 user_details['currency'] = new_currency
-                print(f"Currency updated to {new_currency}.")
-                break
-
-def convert_currency():
-    c = CurrencyRates()
+                return f"Currency updated to {new_currency}."
+                
+def convert_currency_offline(from_cur,to_cur,amount):
     c_offline = CurrencyConverter()
-    is_online = is_connected()
-    from_currency = input("Enter the currency you want to convert from (USD, EUR, GBP, etc.):\n").upper()
-    to_currency = input("Enter the currency you want to convert to (USD, EUR, GBP, etc.):\n").upper()
-    amount = float(input("Enter the amount you want to convert:\n"))
-    if is_online == False:
-        print("You are currently offline. Currency conversion rates may be out of date.")
-        try:
-            converted_amount = c_offline.convert(amount, from_currency, to_currency)
-            print("Converting amounts...")
-        except:
-            print("Invalid currency or conversion error. Please try again.")
-            return
-        else:
-            print(f"{amount} {from_currency} is approximately {converted_amount:.2f} {to_currency}.")
-            return
-    else:
-        try:
-            converted_amount = c.convert(from_currency, to_currency, amount)
-            print("Converting amounts...")
-        except:
-            print("Invalid currency or conversion error. Please try again.")
-            return
-        else:
-            print(f"{amount} {from_currency} is approximately {converted_amount:.2f} {to_currency}.")
-            return
+    try:
+        converted_amount = c_offline.convert(amount, from_cur, to_cur)
+    except:
+        return "Invalid currency or conversion error. Please try again."
         
-convert_currency()
+    else:
+        return f"{amount} {from_cur} is approximately {converted_amount:.2f} {to_cur}."
+        
+        
+
+def convert_currency_online(from_cur,to_cur,amount):
+    c = CurrencyRates()
+    try:
+        converted_amount = c.convert(amount, from_cur, to_cur)
+    except:
+        return "Invalid currency or conversion error. Please try again."
+        
+    else:
+        return f"{amount} {from_cur} is approximately {converted_amount:.2f} {to_cur}."
+
+def update_cur_menu():
+    # create a customtk window
+    # check if user if online, if so, use update_currency_online, if not, use update_currency_offline
+    # create a text input boxes so user can enter what they want to change their currency too
+    pass
+
+
+def convert_menu():
+    # create a customtk window
+    # check if user is online, if so, use convert_currency_online, if not, use convert_currency_offline
+    # print out returned string on window
+    
+    pass
+
+def general_conversion_menu():
+    # create a customtk window
+    # check if user is online, if not, print note saying that currency rates my be out of date
+    # create a few buttons allowing user to choose whether they want to just convert currencies or update their currenct currency
+    # based on user choice, call one of the menus
+    pass

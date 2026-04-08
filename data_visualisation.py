@@ -20,9 +20,17 @@ class Graph:
     def __init__(self, data):
         self.data = data
 
-    def make_pie_chart(self, mode):
-        # code to generate pie chart based on mode and self.data
-        pass
+    def make_pie_chart(self,title):
+        pieces = []
+        labels = []
+        for i in self.data:
+            pieces.append(i['value'])
+            labels.append(i['category'])
+
+        plt.pie(pieces, labels=labels)
+
+        plt.title(title)
+        plt.show()
 
     def make_line_graph(self):
         dates = []
@@ -40,17 +48,3 @@ class Graph:
         plt.show()
 
 
-# Data points
-x = [1, 2, 3, 4, 5]
-y = [10, 24, 36, 40, 52]
-
-# Plotting the data
-plt.plot(x, y)
-
-# Adding labels and title
-plt.title("Sample Line Graph")
-plt.xlabel("X Axis Label")
-plt.ylabel("Y Axis Label")
-
-# Displaying the plot
-plt.show()

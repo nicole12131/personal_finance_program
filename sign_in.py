@@ -3,6 +3,7 @@
 # use hashlib for passwords
 
 import hashlib
+from saving_parsing import *
 
 SPECIAL_CHARACTERS = set("!@#$%^&*()-_=+[]{}|:;'<>.,?/~`")
 
@@ -50,7 +51,7 @@ SPECIAL_CHARACTERS = set("!@#$%^&*()-_=+[]{}|:;'<>.,?/~`")
 
 def hash_password(password):
     sha256 = hashlib.sha256()
-    sha256.update(item.encode("utf-8"))
+    sha256.update(password.encode("utf-8"))
     return sha256.hexdigest()
 
 def password_requirements(password):
@@ -73,48 +74,30 @@ def password_requirements(password):
 
     return True
 
-def create_account(user_details):
-    while True:
-        username = input("Enter a username:\n")
-        check = False
-        for i in user_details:
-            if i['username'] == username:
-                check = True
-                print("Username already exists. Please try again.")
-                break
-        
-        if check == False:
-            break
+def check_username(user_details):
+    # to be called in a tkinter thing
+    pass
 
-    while True:
-        password = input("Enter a password (12 characters, uppercase and lowercase letters, numbers, and special characters):\n")
-        if password_requirements(password):
-            break
-        else:
-            print("Password does not meet the requirements. Please try again.")
 
+
+def create_account(user_details,username,password):
+    # all details are obtained from a tkinter window
     password = hash_password(password)
     print("Account created successfully.")
-    # call create_user() from saving_parsing to create user csv and save details to csv, then create user object using details and return it
+    create_user(username,password)
+    
 
-def log_in(user_details):
-    username = input("Enter your username:\n")
-    user = None
+def log_in(user_details,username,password):
+    # all details are obtained from
     for i in user_details:
-        if i['username'] == username:
+        user = None
+        if username.lower() == i.username:
             user = i
             break
-
-    if not user:
-        print("Username not found.")
-        return None
-
-    password = input("Enter your password:\n")
-    password = hash_password(password)
-
-    if password == user['password']:
-        print("Login successful.")
-        return user
+        else:
+            pass
+    
+    if hash_password(password) == user.password:
+        return "Login succesful.",user
     else:
-        print("Incorrect password.")
-        return None
+        return "Incorrect username or password",False
