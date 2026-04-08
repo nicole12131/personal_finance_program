@@ -1,7 +1,5 @@
 # LV 1st Income and Expense Tracking
 # import csv
-import csv
-import tkinter as tk
 
 # Create empty list/dictionary to store income entries in memory
 # Each income entry will have: date, amount, source
@@ -29,37 +27,6 @@ import tkinter as tk
 
 #   If user chooses 4:
 #       take user to exit
-
-
-def main():
-    print("Welcome to Simple Grade Book!")
-
-    while True:
-        # Display menu
-        print("\nChoose an option:")
-        print("[1] Add New Student")
-        print("[2] Add Grade to Student")
-        print("[3] View Student Record")
-        print("[4] View All Students")
-        print("[5] Class Summary")
-        print("[6] Exit")
-
-        choice = input("Enter your choice (1-6): ").strip()
-
-        if choice == "1":
-#           take them to add incomefunciton            
-        elif choice == "2":
-#           take them to add incomefunciton  
-        elif choice == "3":
-#           take them to add incomefunciton  
-        elif choice == "4":
-            print("Goodbye! Thank you for using Simple Grade Book!")
-            break
-        else:
-            print("Invalid input. Please choose a number from 1 to 6.")
-
-# Run the program
-main()
 
 # function error handling
 # For all user inputs:
@@ -111,13 +78,6 @@ main()
         # Display confirmation message: "Expense added successfully"
     # Return to main menu
 
-def add_expense():
-    date_expense = int(input("Enter date of expense (format YYYY-MM-DD):"))
-    amount = int(input("Enter amount (numeric):"))
-    
-  
-
-
 # View Totals
     # Prompt user to input start date (format YYYY-MM-DD)
     # Prompt user to input end date (format YYYY-MM-DD)
@@ -150,3 +110,215 @@ def add_expense():
 # View Totals
 # call main to test code
 
+import csv
+import tkinter as tk
+from tkinter import messagebox
+from datetime import datetime
+
+
+class TrackerApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Income & Expense Tracker")
+        self.root.geometry("300x300")
+
+        self.income_entries = []
+        self.expense_entries = []
+        self.categories = ["Food", "Transport", "Bills", "Entertainment", "Other"]
+
+        self.build_menu()
+
+
+    # -------- VALIDATION --------
+    def valid_date(self, date):
+        try:
+            datetime.strptime(date, "%Y-%m-%d")
+            return True
+        except:
+            return False
+
+
+    # -------- MENU UI --------
+    def build_menu(self):
+        tk.Label(self.root, text="Main Menu", font=("Arial", 14)).pack(pady=10)
+
+        tk.Button(self.root, text="1. Add Income", command=self.open_income).pack(pady=5)
+        tk.Button(self.root, text="2. Add Expense", command=self.open_expense).pack(pady=5)
+        tk.Button(self.root, text="3. View Totals", command=self.open_totals).pack(pady=5)
+        tk.Button(self.root, text="4. Exit", command=self.exit_app).pack(pady=5)
+
+
+    # -------- ADD INCOME --------
+    def open_income(self):
+        window = tk.Toplevel(self.root)
+        window.title("Add Income")
+
+        tk.Label(window, text="Date (YYYY-MM-DD)").pack()
+        date_entry = tk.Entry(window)
+        date_entry.pack()
+
+        tk.Label(window, text="Amount").pack()
+        amount_entry = tk.Entry(window)
+        amount_entry.pack()
+
+        tk.Label(window, text="Source").pack()
+        source_entry = tk.Entry(window)
+        source_entry.pack()
+
+        def submit():
+            date = date_entry.get()
+            amount = amount_entry.get()
+            source = source_entry.get()
+
+            if not self.valid_date(date):
+                messagebox.showerror("Error", "Invalid date")
+                return
+
+            if source == "":
+                messagebox.showerror("Error", "Enter source")
+                return
+
+            try:
+                amount = float(amount)
+            except:
+                messagebox.showerror("Error", "Amount must be number")
+                return
+
+            self.income_entries.append({
+                "date": date,
+                "amount": amount,
+                "source": source
+            })
+
+            messagebox.showinfo("Success", "Income added")
+            window.destroy()
+
+        tk.Button(window, text="Submit", command=submit).pack()
+
+
+    # -------- ADD EXPENSE --------
+    def open_expense(self):
+        window = tk.Toplevel(self.root)
+        window.title("Add Expense")
+
+        tk.Label(window, text="Date (YYYY-MM-DD)").pack()
+        date_entry = tk.Entry(window)
+        date_entry.pack()
+
+        tk.Label(window, text="Amount").pack()
+        amount_entry = tk.Entry(window)
+        amount_entry.pack()
+
+        tk.Label(window, text="Category").pack()
+        category_var = tk.StringVar(window)
+        category_var.set(self.categories[0])
+        tk.OptionMenu(window, category_var, *self.categories).pack()
+
+        def submit():
+            date = date_entry.get()
+            amount = amount_entry.get()
+            category = category_var.get()
+
+            if not self.valid_date(date):
+                messagebox.showerror("Error", "Invalid date")
+                return
+
+            try:
+                amount = float(amount)
+            except:
+                messagebox.showerror("Error", "Amount must be number")
+                return
+
+            if category not in self.categories:
+                messagebox.showerror("Error", "Invalid category")
+                return
+
+            self.expense_entries.append({
+                "date": date,
+                "amount": amount,
+                "category": category
+            })
+
+            messagebox.showinfo("Success", "Expense added")
+            window.destroy()
+
+        tk.Button(window, text="Submit", command=submit).pack()
+
+
+    # -------- VIEW TOTALS --------
+    def open_totals(self):
+        window = tk.Toplevel(self.root)
+        window.title("View Totals")
+
+        tk.Label(window, text="Start Date").pack()
+        start_entry = tk.Entry(window)
+        start_entry.pack()
+
+        tk.Label(window, text="End Date").pack()
+        end_entry = tk.Entry(window)
+        end_entry.pack()
+
+        result_label = tk.Label(window, text="")
+        result_label.pack()
+
+        def calculate():
+            start = start_entry.get()
+            end = end_entry.get()
+
+            if not self.valid_date(start) or not self.valid_date(end):
+                messagebox.showerror("Error", "Invalid date")
+                return
+
+            start_d = datetime.strptime(start, "%Y-%m-%d")
+            end_d = datetime.strptime(end, "%Y-%m-%d")
+
+            total_income = 0
+            total_expense = 0
+
+            for i in self.income_entries:
+                d = datetime.strptime(i["date"], "%Y-%m-%d")
+                if start_d <= d <= end_d:
+                    total_income += i["amount"]
+
+            for e in self.expense_entries:
+                d = datetime.strptime(e["date"], "%Y-%m-%d")
+                if start_d <= d <= end_d:
+                    total_expense += e["amount"]
+
+            balance = total_income - total_expense
+
+            result_label.config(
+                text=f"Income: {total_income} | Expenses: {total_expense} | Balance: {balance}"
+            )
+
+        tk.Button(window, text="Calculate", command=calculate).pack()
+
+
+    # -------- SAVE --------
+    def save_data(self):
+        with open("john123_income.csv", "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=["date", "amount", "source"])
+            writer.writeheader()
+            writer.writerows(self.income_entries)
+
+        with open("john123_expense.csv", "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=["date", "amount", "category"])
+            writer.writeheader()
+            writer.writerows(self.expense_entries)
+
+
+    # -------- EXIT --------
+    def exit_app(self):
+        self.save_data()
+        self.root.destroy()
+
+
+# -------- MENU FUNCTION --------
+def menu():
+    root = tk.Tk()
+    app = TrackerApp(root)
+    root.mainloop()
+
+
+# -------- RUN --------
+menu()
