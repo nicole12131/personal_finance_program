@@ -1,9 +1,7 @@
 # import csv
-import csv
 # Load data from the saving goal CSV file
 
 # create function for new saving goal
-def new_goal():
 # Ask user if they already have a saving goal
     # if user say no
         # ask for a new saving goal
@@ -14,7 +12,6 @@ def new_goal():
         
 
 # create function for saving progress
-def saving_progress():
 # calcualte progress towards the goal
 
 # if user is doing a good progress 
@@ -27,9 +24,118 @@ def saving_progress():
 # display final progress 
 
 # create function to save progress between sessions 
-def progress_sessions():
 # if user if loged in print their current savings
 # if user want to log out save their progress to the saving goal CSV file
 
 # if a new profile is created add it to the csv file
     # if user make progress add it to csv file
+
+import csv
+
+
+try:
+    file = open(FILE_NAME, "x", newline="")
+    writer = csv.writer(file)
+    writer.writerow(["name", "goal", "saved"])
+    file.close()
+except:
+    pass  
+
+
+def new_goal():
+    name = input("Enter your name: ")
+
+    answer = input("Do you already have a goal? (yes/no): ")
+
+    if answer == "no":
+        goal = float(input("Enter your goal amount: "))
+        saved = 0
+
+    elif answer == "yes":
+        goal = float(input("Enter your goal amount: "))
+        saved = float(input("Enter how much you already saved: "))
+
+    else:
+        print("Invalid input")
+        return
+
+    file = open(FILE_NAME, "a", newline="")
+    writer = csv.writer(file)
+    writer.writerow([name, goal, saved])
+    file.close()
+
+    print("Your goal was saved!")
+
+def saving_progress():
+    name = input("Enter your name: ")
+    found = False
+    new_rows = []
+
+    file = open(FILE_NAME, "r")
+    reader = csv.reader(file)
+    next(reader)
+
+    for row in reader:
+        if row[0] == name:
+            found = True
+
+            goal = float(row[1])
+            saved = float(row[2])
+
+            print("Goal:", goal)
+            print("Saved:", saved)
+
+            add = float(input("How much do you want to add? "))
+            saved = saved + add
+
+            percent = (saved / goal) * 100
+            print("Progress:", round(percent, 2), "%")
+
+            if percent >= 75:
+                print("Good job, almost there!")
+            elif percent >= 40:
+                print("You're doing okay, keep going.")
+            else:
+                print("You should try to save more.")
+
+            row[2] = saved
+
+        new_rows.append(row)
+
+    file.close()
+
+    if found == False:
+        print("User not found")
+        return
+
+    file = open(FILE_NAME, "w", newline="")
+    writer = csv.writer(file)
+    writer.writerow(["name", "goal", "saved"])
+    writer.writerows(new_rows)
+    file.close()
+
+
+# main menu
+def progress_sessions():
+    while True:
+        print("\n1. New Goal")
+        print("2. Add Savings")
+        print("3. Exit")
+
+        choice = input("Choose: ")
+
+        if choice == "1":
+            new_goal()
+
+        elif choice == "2":
+            saving_progress()
+
+        elif choice == "3":
+            print("Bye")
+            break
+
+        else:
+            print("Not a valid option")
+
+
+progress_sessions()
