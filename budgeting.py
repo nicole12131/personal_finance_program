@@ -113,7 +113,7 @@ def compare_expenses(expenses_path, budget_path):
         count += 1
     # displays how much they have left to spend for each category
     root = tk.Tk()
-    root.title("Set Budget Limits")
+    root.title("Compare Budget")
     root.minsize(500, 500)
     root.maxsize(2000, 2000)
     food_label = tk.Label(root, text = f"Limit: {budget_limits[0]}, Spent: {expenses[0]}, Remaining: {difference[0]}")
@@ -126,3 +126,6 @@ def compare_expenses(expenses_path, budget_path):
     utilities_label.pack()
     transportation_label.pack()
     entertainment_label.pack()
+
+set_limits("john123_budgets.csv")
+compare_expenses("john123_expenses.csv", "john123_budgets.csv")
