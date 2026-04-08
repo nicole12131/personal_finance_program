@@ -2,6 +2,7 @@
 
 # import numpy, maybe pandas
 import matplotlib.pyplot as plt
+import customtkinter as ctk
 
 # define function make pie charts (come up with a better name)
     # this graph is going to be used for displaying total amount of budget spent, how much each catergory takes up in the budget how much each atergory takes up in expenses, and a few other things
@@ -41,10 +42,49 @@ class Graph:
         
         plt.plot(dates, amounts)
 
-        plt.title("Expenses Over Time")
+        plt.title("Expenses/Income (whatever you chose) Over Time")
         plt.xlabel("Date")
         plt.ylabel("Amount")
 
         plt.show()
+
+def expenses_incomes(user):
+    app = ctk.CTk()
+    app.title("Expenses/Incomes Line Charts")
+    app.geometry("300x300")
+
+    def expenses_command():
+        
+
+    def incomes_command():
+        pass
+
+    expenses_button = ctk.CTkButton(app,text="Create Line Chart for Expenses",fg_color="blue")
+    
+    incomes_button = ctk.CTkButton(app,text="Create Line Chart for Incomes",fg_color="blue")
+
+    expenses_button.pack(pady="20px")
+    incomes_button.pack(pady="20px")
+
+def pie_charts(app,user):
+    pass
+
+
+def visualization_menu(user):
+    app = ctk.CTk()
+    app.title("Visualization Menu")
+    app.geometry("300x300")
+
+    graph_button = ctk.CTkButton(app,text="Visualize Expenses/Income Over Time",fg_color="blue")
+    
+
+    pie_button = ctk.CTkButton(app,text="Create Pie Charts (Mutiple Options)")
+    
+    
+    graph_button.pack()
+    pie_button.pack()
+
+
+    app.mainloop()
 
 
