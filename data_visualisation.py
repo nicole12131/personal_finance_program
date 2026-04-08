@@ -3,6 +3,8 @@
 # import numpy, maybe pandas
 import matplotlib.pyplot as plt
 import customtkinter as ctk
+from budgeting import *
+
 
 # define function make pie charts (come up with a better name)
     # this graph is going to be used for displaying total amount of budget spent, how much each catergory takes up in the budget how much each atergory takes up in expenses, and a few other things
@@ -18,56 +20,17 @@ import customtkinter as ctk
     # plug those numbers into pandas to generate a pretty-ish chart, return and print on screen
 
 class Graph:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, pieces, labels,title):
+        self.pieces = pieces
+        self.labels = labels
+        self.title = title
 
     def make_pie_chart(self,title):
-        pieces = []
-        labels = []
-        for i in self.data:
-            pieces.append(i['value'])
-            labels.append(i['category'])
+        plt.pie(self.pieces,labels = self.labels)
 
-        plt.pie(pieces, labels=labels)
-
-        plt.title(title)
+        plt.title(self.title)
         plt.show()
 
-    def make_line_graph(self):
-        dates = []
-        amounts = []
-        for i in self.data:
-            dates.append(i.date)
-            amounts.append(i.amount)
-        
-        plt.plot(dates, amounts)
-
-        plt.title("Expenses/Income (whatever you chose) Over Time")
-        plt.xlabel("Date")
-        plt.ylabel("Amount")
-
-        plt.show()
-
-def expenses_incomes(user):
-    app = ctk.CTk()
-    app.title("Expenses/Incomes Line Charts")
-    app.geometry("300x300")
-
-    def expenses_command():
-        
-
-    def incomes_command():
-        pass
-
-    expenses_button = ctk.CTkButton(app,text="Create Line Chart for Expenses",fg_color="blue")
-    
-    incomes_button = ctk.CTkButton(app,text="Create Line Chart for Incomes",fg_color="blue")
-
-    expenses_button.pack(pady="20px")
-    incomes_button.pack(pady="20px")
-
-def pie_charts(app,user):
-    pass
 
 
 def visualization_menu(user):
@@ -75,10 +38,28 @@ def visualization_menu(user):
     app.title("Visualization Menu")
     app.geometry("300x300")
 
-    graph_button = ctk.CTkButton(app,text="Visualize Expenses/Income Over Time",fg_color="blue")
-    
+    def spent_command():
+        food, rent, utilties, transportation, entertainment = get_amounts("CSV/john123_expense.csv")
+        expenses = [food,rent,utilties,transportation,entertainment]
+        labels = ["Food","Rent","Utilties","Transportation","Entertainment"]
 
-    pie_button = ctk.CTkButton(app,text="Create Pie Charts (Mutiple Options)")
+        pie = Graph(expenses,labels,"Expenses by Category")
+        pie.make_pie_chart()
+
+
+
+    def budget_command():
+        limits = get_budget("CSV/john123_budgets.csv")
+        labels = "Food","Rent","Utitlies","Transportation","Entertainment"
+
+        pie = Graph(limits,labels,"Budget Categories")
+        pie.make_pie_chart()
+        
+
+    budget_button = ctk.CTkButton(app,text="Create Pie Chart for Budget Categories",command=budget_command,fg_color = "blue")
+
+    
+    spent_button = ctk.CTkButton(app,text="Create Pie Chart for Expenses By Category",command=spent_command,fg_color = "blue")
     
     
     graph_button.pack()
