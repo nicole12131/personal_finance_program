@@ -1,12 +1,15 @@
 # import csv
 import csv
-
+user = []
 # Load data from the saving goal CSV file
 try:
     file = open("CSV\\user_details.csv", "x", newline="")
     writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
+    writer.writerow(["username", "goal", "saved"])
     file.close()
+    for row in writer:
+        user.append({
+            "username": row["username"].strip()})
 except:
     pass  
 
@@ -19,7 +22,7 @@ except:
     # else
         # print invalid choice 
 def new_goal():
-    name = input("Enter your name: ")
+    username = input("Enter your name: ")
 
     answer = input("Do you already have a goal? (yes/no): ")
 
@@ -37,7 +40,7 @@ def new_goal():
 
     file = open("CSV\\user_details.csv", "a", newline="")
     writer = csv.writer(file)
-    writer.writerow([name, goal, saved])
+    writer.writerow([username, goal, saved])
     file.close()
 
     print("Your goal was saved!")
@@ -51,7 +54,7 @@ def new_goal():
 # if user is doing a bad progress
     # print options to improve savings to complete the goal
 def saving_progress():
-    name = input("Enter your name: ")
+    name = input("Enter your username: ")
     found = False
     new_rows = []
 
