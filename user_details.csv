@@ -1,2 +1,2 @@
-username,password,purchases_csv,income_csv,budgets_csv,currency_type
+username,password,expenses_path,incomes_path,savings_path,currency
 name,ubnadbijdsaf732ok421983nga,file_path,file_path,file_path,USD

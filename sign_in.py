@@ -74,11 +74,14 @@ def password_requirements(password):
 
     return True
 
-def check_username(user_details):
-    # to be called in a tkinter thing
-    pass
-
-
+def check_username(user_details,username):
+    for i in user_details:
+        if i.username.lower() == username.lower:
+            return "That username already exists in the database.", False
+        else:
+            pass
+    
+    return True
 
 def create_account(user_details,username,password):
     # all details are obtained from a tkinter window
@@ -91,7 +94,7 @@ def log_in(user_details,username,password):
     # all details are obtained from
     for i in user_details:
         user = None
-        if username.lower() == i.username:
+        if username.lower() == i.username.lower():
             user = i
             break
         else:

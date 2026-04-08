@@ -101,21 +101,23 @@ def save_user(file_paths, expenses, incomes, savings):
 def create_user(username, password):
     def make_paths(username):
         file_paths = {
-            "expenses": f"documents\\{username}_expenses.csv",
-            "incomes": f"documents\\{username}_incomes.csv",
-            "savings": f"documents\\{username}_savings.csv"
+            "expenses": f"personal_finance_progam\\documents\\{username}_expenses.csv",
+            "incomes": f"personal_finance_progam\\documents\\{username}_incomes.csv",
+            "savings": f"personal_finance_progam\\documents\\{username}_savings.csv"
         }
         return file_paths
 
     def write_details(username, password, file_paths):
         with open("details.csv", "a", newline="") as file:
-            fieldnames = ["username", "password", "file_paths", "currency"]
+            fieldnames = ["username", "password", "expenses_path","incomes_path","savings_path","currency"]
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerow({
                 "username": username,
                 "password": password,
-                "file_paths": file_paths,
+                "expenses_path": file_paths['expenses'],
+                "incomes_path": file_paths['incomes'],
+                "savings_path":file_paths['savings'],
                 "currency": "USD"
             })
 
