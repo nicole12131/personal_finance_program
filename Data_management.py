@@ -1,5 +1,9 @@
 # import csv
 import csv
+import tkinter as tk
+from tkinter import messagebox
+from datetime import datetime
+
 user = []
 # Load data from the saving goal CSV file
 try:
@@ -13,6 +17,17 @@ try:
 except:
     pass  
 
+class AddSavings:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Income & Expense Tracker")
+        self.root.geometry("300x300")
+
+        self.income_entries = []
+        self.expense_entries = []
+        self.categories = ["food", "rent", "utilities", "transportation", "entertainment"]
+
+        self.build_menu()
 # create function for new saving goal
 # Ask user if they already have a saving goal
     # if user say no
@@ -21,111 +36,125 @@ except:
         # Input current savings
     # else
         # print invalid choice 
-def new_goal():
-    username = input("Enter your name: ")
+    def new_goal(self):
+        window = tk.Toplevel(self.root)
+        window.title("new goal")
 
-    answer = input("Do you already have a goal? (yes/no): ")
+        tk.Label(window, text="Date (YYYY-MM-DD)").pack()
+        date_entry = tk.Entry(window)
+        date_entry.pack()
 
-    if answer == "no":
-        goal = float(input("Enter your goal amount: "))
-        saved = 0
+        tk.Label(window, text="Amount").pack()
+        amount_entry = tk.Entry(window)
+        amount_entry.pack()
 
-    elif answer == "yes":
-        goal = float(input("Enter your goal amount: "))
-        saved = float(input("Enter how much you already saved: "))
+        def submit():
+            date = date_entry.get()
+            amount = amount_entry.get()
+       
+            if not self.valid_date(date):
+                messagebox.showerror("Error", "Invalid date")
+                return
+            try:
+                    amount = float(amount)
+            except:
+                messagebox.showerror("Error", "Amount must be number")
+                return
 
-    else:
-        print("Invalid input")
-        return
+            self.income_entries.append({
+                "date": date,
+                "amount": amount,
+                })
 
-    file = open("CSV\\user_details.csv", "a", newline="")
-    writer = csv.writer(file)
-    writer.writerow([username, goal, saved])
-    file.close()
+            messagebox.showinfo("Success", "goal added")
+            window.destroy()
 
-    print("Your goal was saved!")
+        tk.Button(window, text="Submit", command=submit).pack()
 
-# create function for saving progress
-# calcualte progress towards the goal
+        
 
-# if user is doing a good progress 
-    # print that they are doing a good progress
+    # create function for saving progress
+    # calcualte progress towards the goal
 
-# if user is doing a bad progress
-    # print options to improve savings to complete the goal
-def saving_progress():
-    name = input("Enter your username: ")
-    found = False
-    new_rows = []
+    # if user is doing a good progress 
+        # print that they are doing a good progress
 
-    file = open("CSV\\user_details.csv", "r")
-    reader = csv.reader(file)
-    next(reader)
+    # if user is doing a bad progress
+        # print options to improve savings to complete the goal
+    def add_savings(self):
+        window = tk.Toplevel(self.root)
+        window.title("")
 
-    for row in reader:
-        if row[0] == name:
-            found = True
+        tk.Label(window, text="Date (YYYY-MM-DD)").pack()
+        date_entry = tk.Entry(window)
+        date_entry.pack()
 
-            goal = float(row[1])
-            saved = float(row[2])
+        tk.Label(window, text="Amount").pack()
+        amount_entry = tk.Entry(window)
+        amount_entry.pack()
 
-            print("Goal:", goal)
-            print("Saved:", saved)
+        def submit():
+            date = date_entry.get()
+            amount = amount_entry.get()
+        
+            if not self.valid_date(date):
+                messagebox.showerror("Error", "Invalid date")
+                return
+            try:
+                    amount = float(amount)
+            except:
+                messagebox.showerror("Error", "Amount must be number")
+                return
 
-            add = float(input("How much do you want to add? "))
-            saved = saved + add
+            self.income_entries.append({
+                "date": date,
+                "amount": amount,
+                })
 
-            percent = (saved / goal) * 100
-            print("Progress:", round(percent, 2), "%")
+            messagebox.showinfo("Success", "goal added")
+            window.destroy()
 
-            if percent >= 75:
-                print("Good job, almost there!")
-            elif percent >= 40:
-                print("You're doing okay, keep going.")
-            else:
-                print("You should try to save more.")
+        tk.Button(window, text="Submit", command=submit).pack()
 
-            row[2] = saved
+    # create function to save progress between sessions 
+    # if user if loged in print their current savings
+    # if user want to log out save their progress to the saving goal CSV file
+    # Save data to the saving goal CSV file
+    # display final progress 
+    #def progress_sessions(self):
+        #while True:
+            #print("1. New Goal")
+            #print("2. add savings")
+            #print("3. Exit")
 
-        new_rows.append(row)
+            #choice = input("Choose: ")
 
-    file.close()
-# if a new profile is created add it to the csv file
-    # if user make progress add it to csv file
-    if found == False:
-        print("User not found")
-        return
+            #if choice == "1":
+                #new_goal()
 
-    file = open("CSV\\user_details.csv", "w", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    writer.writerows(new_rows)
-    file.close()
+            #elif choice == "2":
+                #add_savings()
 
-# create function to save progress between sessions 
-# if user if loged in print their current savings
-# if user want to log out save their progress to the saving goal CSV file
-# Save data to the saving goal CSV file
-# display final progress 
-def progress_sessions():
-    while True:
-        print("1. New Goal")
-        print("2. Add Savings")
-        print("3. Exit")
+            #elif choice == "3":
+                #print("Bye")
+                #break
 
-        choice = input("Choose: ")
+            #else:
+                #print("Not a valid option")
 
-        if choice == "1":
-            new_goal()
+    def build_menu(self):
+        tk.Label(self.root, text="Main Menu", font=("Arial", 14)).pack(pady=10)
+        tk.Button(self.root, text="1. New goal", command=self.new_goal).pack(pady=5)
+        tk.Button(self.root, text="2. Add Savings", command=self.saving_progress).pack(pady=5)
+        tk.Button(self.root, text="3. Exit", command=self.exit).pack(pady=5)
 
-        elif choice == "2":
-            saving_progress()
+    def exit(self):
+        self.add_savings()
+        self.root.new_goal()
 
-        elif choice == "3":
-            print("Bye")
-            break
+def menu():
+    root = tk.Tk()
+    app = AddSavings(root)
+    root.mainloop()
 
-        else:
-            print("Not a valid option")
-
-progress_sessions()
+menu()
