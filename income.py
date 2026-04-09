@@ -296,12 +296,12 @@ class TrackerApp:
 
     #  SAVE 
     def save_data(self):
-        with open("john123_income.csv", "w", newline="") as f:
+        with open("CSV/john123_income.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "source"])
             writer.writeheader()
             writer.writerows(self.income_entries)
 
-        with open("john123_expense.csv", "w", newline="") as f:
+        with open("CSV/john123_expense.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "category"])
             writer.writeheader()
             writer.writerows(self.expense_entries)
