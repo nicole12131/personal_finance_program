@@ -30,10 +30,10 @@ def main():
                 # run the income/expenses menu function
         income_expenses = tk.Button(logged_in, text = "Manage Income/Expenses", command = menu())
             # SET LIMITS:
-        limits = tk.Button(logged_in, text = "Set Budget Limits", command = set_limits())
+        limits = tk.Button(logged_in, text = "Set Budget Limits", command = set_limits(user["savings_csv"]))
                 # run the set budget limits function
             # COMPARE BUDGET/EXPENSES:
-        compare = tk.Button(logged_in, text = "Compare Budget to Expenses", command = compare_expenses())
+        compare = tk.Button(logged_in, text = "Compare Budget to Expenses", command = compare_expenses(user["expenses_csv"], user["savings_csv"]))
                 # run the compare budget and expenses function
             # SET SAVINGS GOAL:
         set_goal = tk.Button(logged_in, text = "Set Savings Goal", command = new_goal())
@@ -47,7 +47,6 @@ def main():
             # VIEW GRAPH:
         line_graph = tk.Button(logged_in, text = "View Line Graph", command = None)
                 # run the make graph function
-        convert_currency = tk.Button(logged_in, text = "Convert Currency", command = convert_currency())
             # LOG OUT:
         log_out = tk.Button(logged_in, text = "Log Out", command = log_out())
                 # set account status to inactive
@@ -80,3 +79,6 @@ def main():
     quit_program  = tk.Button(root, text = "Quit", command = exit_program)
         # exit the loop
     root.mainloop()
+
+
+main()
