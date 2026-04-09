@@ -82,15 +82,15 @@ class Graph:
 def visualization_menu(user):
     app = ctk.CTk()
     app.title("Visualization Menu")
-    app.geometry("300x300")
+    app.geometry("1200x500")
 
     def spent_command():
         food, rent, utilties, transportation, entertainment = get_amounts("CSV/john123_expense.csv")
         expenses = [food,rent,utilties,transportation,entertainment]
         labels = ["Food","Rent","Utilties","Transportation","Entertainment"]
 
-        pie = Graph(expenses,labels,"Expenses by Category")
-        pie.make_pie_chart()
+        pie = Graph(expenses,labels)
+        pie.make_pie_chart("Expenses by Category")
 
 
 
@@ -98,18 +98,21 @@ def visualization_menu(user):
         limits = get_budget("CSV/john123_budgets.csv")
         labels = "Food","Rent","Utitlies","Transportation","Entertainment"
 
-        pie = Graph(limits,labels,"Budget Categories")
-        pie.make_pie_chart()
         
 
+        pie = Graph(limits,labels)
+        pie.make_pie_chart("Budget Categories")
+        
+    explanation = ctk.CTkLabel(app,text="Welcome to the visualization menu. Click the button below to create a pie chart for your budget categories, or click the other button to create a pie chart for your expenses by category.")
     budget_button = ctk.CTkButton(app,text="Create Pie Chart for Budget Categories",command=budget_command,fg_color = "blue")
 
     
     spent_button = ctk.CTkButton(app,text="Create Pie Chart for Expenses By Category",command=spent_command,fg_color = "blue")
     
-    
+    explanation.pack()
     budget_button.pack()
     spent_button.pack()
+    
 
 
     app.mainloop()
