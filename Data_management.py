@@ -124,5 +124,3 @@ def progress_sessions():
 
         else:
             print("Not a valid option")
-
-progress_sessions()

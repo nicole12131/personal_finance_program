@@ -3,7 +3,7 @@ import tkinter as tk
 import csv
 
 # Set limits function:
-def set_limits(relative_path):
+def set_limits():
     def validate():
         final_entry = []
         # checks user entries to make sure they're numbers
@@ -16,7 +16,7 @@ def set_limits(relative_path):
                 return "invalid"
         return final_entry
     
-    def submit(relative_path):
+    def submit():
         result = validate()
         if result == "invalid":
             # if the users inputs are invalid print out an error message
@@ -26,7 +26,7 @@ def set_limits(relative_path):
         else:
             # if all the users inputs are valid save them to their budget csv
             fieldnames = ["food", "rent", "utilities", "transportation", "entertainment"]
-            with open(relative_path, "w") as budget_csv:
+            with open("CSV\john123_budgets.csv", "w") as budget_csv:
                 writer = csv.DictWriter(budget_csv, fieldnames = fieldnames)
                 writer.writeheader
                 writer.writerow(result)
@@ -49,16 +49,16 @@ def set_limits(relative_path):
         entry_label.pack()
         entry[count].pack()
         count += 1
-    sub_btn = tk.Button(root, text = "Submit", command = submit(relative_path))
+    sub_btn = tk.Button(root, text = "Submit", command = submit())
     sub_btn.pack()
     # updates each value in the list pulled from the csv
     root.mainloop()
     # returns the updated list
 
 # Compare expenses function:
-def compare_expenses(expenses_path, budget_path):
-    def get_expense_data(expenses_path):
-        with open(expenses_path, "r") as expenses_csv:
+def compare_expenses():
+    def get_expense_data():
+        with open("CSV\john123_expense.csv", "r") as expenses_csv:
             # loops over csv and converts lines into dictionaries
             content = csv.reader(expenses_csv)
             row_count = sum(1 for row in content)
@@ -71,14 +71,14 @@ def compare_expenses(expenses_path, budget_path):
             for line in content:
                 rows.append({headers[0] : line[0], headers[1] : line[1], headers[2] : line[2], headers[3] : line[3]})
             return rows
-    def get_amounts(expenses_path):
+    def get_amounts():
         food = 0
         rent = 0
         utilities = 0
         transportation = 0
         entertainment = 0
         # get expenses data from the users expense csv
-        expense_csv = get_expense_data(expenses_path)
+        expense_csv = get_expense_data()
         # check expense category and add it to the corresponding total
         for expense in expense_csv:
             if expense["category"] == "food":
@@ -92,8 +92,8 @@ def compare_expenses(expenses_path, budget_path):
             elif expense["category"] == "entertainment":
                 entertainment += float(expense["amount"])
         return food, rent, utilities, transportation, entertainment
-    def get_budget(budget_path):
-        with open(budget_path, "r") as budget_csv:
+    def get_budget():
+        with open("CSV\john123_budgets.csv", "r") as budget_csv:
             # loops over csv and converts lines into dictionaries
             content = csv.reader(budget_csv)
             limits = []
@@ -103,9 +103,9 @@ def compare_expenses(expenses_path, budget_path):
             return limits
     count = 0
     # get how much they spent in each category
-    food, rent, utilities, transportation, entertainment = get_amounts(expenses_path)
+    food, rent, utilities, transportation, entertainment = get_amounts()
     expenses = [food, rent, utilities, transportation, entertainment]
-    budget_limits = get_budget(budget_path)
+    budget_limits = get_budget()
     difference = []
     # subtracts what they've spent in each category from what the limit is in each category
     for limit in budget_limits:
@@ -126,6 +126,3 @@ def compare_expenses(expenses_path, budget_path):
     utilities_label.pack()
     transportation_label.pack()
     entertainment_label.pack()
-
-set_limits("john123_budgets.csv")
-compare_expenses("john123_expenses.csv", "john123_budgets.csv")
