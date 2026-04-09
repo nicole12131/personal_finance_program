@@ -13,43 +13,39 @@ import sys
 # main function:
 def main():
     root = tk.Tk()
-    def log_out_result():
-        log_out()
+    def log_out():
         logged_in.pack_forget()
+    def convert_currency():
+        if is_connected() == True:
+            convert_currency_online()
+            update_currency_online()
+        else:
+            convert_currency_offline()
+            update_currency_offline
     def logged_in_options():
-        log_in()
+        message, user = log_in()
         # provide user with more options: add expense, add income, view total income or expenses in a specified time, set budget limits, compare budget to expenses, set savings goal, track progress towards savings goal, view budget as pie chart, view income/expenses as graph, log out
         instruction = tk.Label(logged_in, text = "Welcome user. Choose an option below.")
-            # ADD EXPENSE:
-        log_expense = tk.Button(logged_in, text = "Log Expense", command = expense())
-                # run the add expense function
-            # ADD INCOME:
-        log_income = tk.Button(logged_in, text = "Log Income", command = income())
-                # run the add income function
-            # VIEW INCOME/EXPENSES IN A SPECIFIED TIME:
-        view = tk.Button(logged_in, text = "View Expenses/Income ", command = view_over_time())
-                # run the function to view income/expenses in a specified time
+            # EXPENSES:
+                # run the income/expenses menu function
+        income_expenses = tk.Button(logged_in, text = "Manage Income/Expenses", command = menu())
             # SET LIMITS:
-        set_limits = tk.Button(logged_in, text = "Set Budget Limits", command = set_limits())
+        limits = tk.Button(logged_in, text = "Set Budget Limits", command = set_limits(user["savings_csv"]))
                 # run the set budget limits function
             # COMPARE BUDGET/EXPENSES:
-        compare = tk.Button(logged_in, text = "Compare Budget to Expenses", command = compare_expense())
+        compare = tk.Button(logged_in, text = "Compare Budget to Expenses", command = compare_expenses(user["expenses_csv"], user["savings_csv"]))
                 # run the compare budget and expenses function
             # SET SAVINGS GOAL:
-        set_goal = tk.Button(logged_in, text = "Set Savings Goal", command = goal())
+        set_goal = tk.Button(logged_in, text = "Set Savings Goal", command = new_goal())
                 # run the set savings goal function
             # TRACK PROGRESS TO GOAL:
-        track_goal = tk.Button(logged_in, text = "Track Progress to Goal", command = track())
+        track_goal = tk.Button(logged_in, text = "Track Progress to Goal", command = saving_progress())
                 # run the track progress to savings goal function
             # VIEW PIE CHART:
-        pie_chart = tk.Button(logged_in, text = "View Pie Chart", command = pie())
-                # run the make pie chart function
-            # VIEW GRAPH:
-        line_graph = tk.Button(logged_in, text = "View Line Graph", command = line())
-                # run the make graph function
-        convert_currency = tk.Button(logged_in, text = "Convert Currency", command = convert())
+        pie_chart = tk.Button(logged_in, text = "View Pie Chart", command = visualization_menu(user))
+                # run the make pie chart function  
             # LOG OUT:
-        log_out = tk.Button(logged_in, text = "Log Out", )
+        log_out = tk.Button(logged_in, text = "Log Out", command = log_out())
                 # set account status to inactive
                 # take the user back to the first selection of choices
     def remove_welcome(welcome, confirm_btn, login, create_an_account, quit_program):
@@ -80,3 +76,6 @@ def main():
     quit_program  = tk.Button(root, text = "Quit", command = exit_program)
         # exit the loop
     root.mainloop()
+
+
+main()

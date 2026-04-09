@@ -124,7 +124,7 @@ class TrackerApp:
 
         self.income_entries = []
         self.expense_entries = []
-        self.categories = ["Food", "Transport", "Bills", "Entertainment", "Other"]
+        self.categories = ["food", "rent", "utilities", "transportation", "entertainment"]
 
         self.build_menu()
 
