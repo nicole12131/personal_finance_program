@@ -42,11 +42,8 @@ def main():
         track_goal = tk.Button(logged_in, text = "Track Progress to Goal", command = saving_progress())
                 # run the track progress to savings goal function
             # VIEW PIE CHART:
-        pie_chart = tk.Button(logged_in, text = "View Pie Chart", command = None)
-                # run the make pie chart function
-            # VIEW GRAPH:
-        line_graph = tk.Button(logged_in, text = "View Line Graph", command = None)
-                # run the make graph function
+        pie_chart = tk.Button(logged_in, text = "View Pie Chart", command = visualization_menu(user))
+                # run the make pie chart function  
             # LOG OUT:
         log_out = tk.Button(logged_in, text = "Log Out", command = log_out())
                 # set account status to inactive
