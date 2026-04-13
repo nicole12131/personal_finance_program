@@ -116,7 +116,3 @@ def visualization_menu(user):
 
 
     app.mainloop()
-
-visualization_menu("Test")
-
-
