@@ -342,7 +342,3 @@ def menu():
     root = tk.Tk()
     app = TrackerApp(root)
     root.mainloop()
-
-
-# RUN 
-menu()
