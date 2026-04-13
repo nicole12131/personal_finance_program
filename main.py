@@ -29,7 +29,7 @@ def options(root):
     track_goal = tk.Button(root, text = "Track Progress to Goal", command = saving_progress)
             # run the track progress to savings goal function
         # VIEW PIE CHART:
-    visualize = tk.Button(root, text = "Visualize Data")
+    visualize = tk.Button(root, text = "Visualize Data", command = visualization_menu)
             # run the make pie chart function
         # QUIT:
     quit_main  = tk.Button(root, text = "Quit", command = exit_program)
