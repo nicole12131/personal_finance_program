@@ -1,51 +1,55 @@
+# import csv
 import csv
-import tkinter as tk
-from tkinter import messagebox
 
 FILE_PATH = "CSV/user_details.csv"
 
 
+# create function for new saving goal
+# Ask user if they already have a saving goal
+    # if user say no
+        # ask for a new saving goal
+    # if user say yes
+        # Input current savings
+    # else
+        # print invalid choice 
 def new_goal():
-    name = name_entry.get()
-    answer = goal_type.get()
+    name = input("Enter your name: ")
 
-    if name == "":
-        messagebox.showerror("Error", "Enter your name")
-        return
-
-    try:
-        goal = float(goal_entry.get())
-    except:
-        messagebox.showerror("Error", "Enter a valid goal")
-        return
+    answer = input("Do you already have a goal? (yes/no): ")
 
     if answer == "no":
+        goal = float(input("Enter your goal amount: "))
         saved = 0
 
     elif answer == "yes":
-        try:
-            saved = float(saved_entry.get())
-        except:
-            messagebox.showerror("Error", "Enter valid savings")
-            return
+        goal = float(input("Enter your goal amount: "))
+        saved = float(input("Enter how much you already saved: "))
+
     else:
-        messagebox.showerror("Error", "Select yes or no")
+        print("Invalid input")
         return
 
-    file = open(FILE_PATH, "a", newline="")
+    file = open("CSV\\user_details.csv", "a", newline="")
     writer = csv.writer(file)
     writer.writerow([name, goal, saved])
     file.close()
 
-    messagebox.showinfo("Success", "Goal saved!")
+    print("Your goal was saved!")
 
+# create function for saving progress
+# calcualte progress towards the goal
 
+# if user is doing a good progress 
+    # print that they are doing a good progress
+
+# if user is doing a bad progress
+    # print options to improve savings to complete the goal
 def saving_progress():
-    name = name_entry.get()
+    name = input("Enter your name: ")
     found = False
     new_rows = []
 
-    file = open(FILE_PATH, "r")
+    file = open("CSV\\user_details.csv", "r")
     reader = csv.reader(file)
     next(reader)
 
@@ -56,36 +60,34 @@ def saving_progress():
             goal = float(row[1])
             saved = float(row[2])
 
-            try:
-                add = float(add_entry.get())
-            except:
-                messagebox.showerror("Error", "Enter valid amount")
-                return
+            print("Goal:", goal)
+            print("Saved:", saved)
 
-            saved += add
+            add = float(input("How much do you want to add? "))
+            saved = saved + add
+
             percent = (saved / goal) * 100
+            print("Progress:", round(percent, 2), "%")
 
             if percent >= 75:
-                msg = "Good job, almost there!"
+                print("Good job, almost there!")
             elif percent >= 40:
-                msg = "You're doing okay, keep going."
+                print("You're doing okay, keep going.")
             else:
-                msg = "You should try to save more."
-
-            messagebox.showinfo("Progress",
-                                f"Goal: {goal}\nSaved: {saved}\nProgress: {round(percent,2)}%\n{msg}")
+                print("You should try to save more.")
 
             row[2] = saved
 
         new_rows.append(row)
 
     file.close()
-
-    if not found:
-        messagebox.showerror("Error", "User not found")
+# if a new profile is created add it to the csv file
+    # if user make progress add it to csv file
+    if found == False:
+        print("User not found")
         return
 
-    file = open(FILE_PATH, "w", newline="")
+    file = open("CSV\\user_details.csv", "w", newline="")
     writer = csv.writer(file)
     writer.writerow(["name", "goal", "saved"])
     writer.writerows(new_rows)

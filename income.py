@@ -115,6 +115,7 @@ import tkinter as tk
 from tkinter import messagebox
 from datetime import datetime
 
+
 class TrackerApp:
     def __init__(self, root):
         self.root = root
@@ -123,7 +124,6 @@ class TrackerApp:
 
         self.income_entries = []
         self.expense_entries = []
-        self.load_data()  
         self.categories = ["food", "rent", "utilities", "transportation", "entertainment"]
 
         self.build_menu()
@@ -244,31 +244,7 @@ class TrackerApp:
 
         tk.Button(window, text="Submit", command=submit).pack()
 
-    def load_data(self):
-        try:
-            with open("CSV/john123_income.csv", "r") as f:
-                reader = csv.DictReader(f)
-                self.income_entries = list(reader)
-                for i in self.income_entries:
-                    try:
-                        i["amount"] = float(i["amount"])
-                    except:
-                        i["amount"] = 0
-        except FileNotFoundError:
-            self.income_entries = []
 
-        try:
-            with open("CSV/john123_expense.csv", "r") as f:
-                reader = csv.DictReader(f)
-                self.expense_entries = list(reader)
-                for e in self.expense_entries:
-                    try:
-                        e["amount"] = float(e["amount"])
-                    except:
-                        e["amount"] = 0
-        except FileNotFoundError:
-            self.expense_entries = []
-            
     # VIEW TOTALS 
     def open_totals(self):
         window = tk.Toplevel(self.root)
@@ -320,12 +296,12 @@ class TrackerApp:
 
     #  SAVE 
     def save_data(self):
-        with open("CSV/john123_income.csv", "w", newline="") as f:
+        with open("john123_income.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "source"])
             writer.writeheader()
             writer.writerows(self.income_entries)
 
-        with open("CSV/john123_expense.csv", "w", newline="") as f:
+        with open("john123_expense.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "category"])
             writer.writeheader()
             writer.writerows(self.expense_entries)
