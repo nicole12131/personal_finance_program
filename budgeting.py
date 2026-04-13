@@ -115,16 +115,11 @@ def compare_expenses():
             budget_csv.seek(0)
             if row_count == 0:
                 headers = ["food", "rent", "utilities", "transportation", "entertainment"]
-            elif row_count == "1":
+            elif row_count == 1:
                 label = tk.Label(root, text = "You have no logged budget limits yet.")
-                quit_btn = tk.Button(root, text = "Quit", command = sys.exit)
+                label.config(fg = "red")
                 label.pack()
-                quit_btn.pack()
-                food_label.pack_forget()
-                rent_label.pack_forget()
-                utilities_label.pack_forget()
-                transportation_label.pack_forget()
-                entertainment_label.pack_forget()
+                return [{"food" : 0, "rent" : 0, "utilities" : 0, "transportation" : 0, "entertainment" : 0}]
             else:
                 headers = next(content)
             rows = []
@@ -136,6 +131,7 @@ def compare_expenses():
     food, rent, utilities, transportation, entertainment = get_amounts()
     expenses = [food, rent, utilities, transportation, entertainment]
     categories = ["food", "rent", "utilities", "transportation", "entertainment"]
+    root = tk.Tk()
     budget_limits = get_budget()
     difference = []
     # subtracts what they've spent in each category from what the limit is in each category
@@ -143,7 +139,6 @@ def compare_expenses():
         difference.append(float(budget_limits[0][category]) - expenses[count])
         count += 1
     # displays how much they have left to spend for each category
-    root = tk.Tk()
     root.title("Compare Budget")
     root.minsize(250, 200)
     root.maxsize(800, 800)
