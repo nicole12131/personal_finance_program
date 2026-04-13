@@ -4,14 +4,6 @@ from tkinter import messagebox
 
 FILE_PATH = "CSV/user_details.csv"
 
-# create file if it doesn't exist
-try:
-    file = open(FILE_PATH, "x", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    file.close()
-except:
-    pass
 
 def new_goal():
     name = name_entry.get()
