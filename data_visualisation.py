@@ -58,13 +58,12 @@ def get_amounts(expenses_path):
 
 def get_budget(budget_path):
     with open(budget_path, "r") as budget_csv:
-        # loops over csv and converts lines into dictionaries
-        content = csv.reader(budget_csv)
-        limits = []
+        # loops over csv and converts lines into dictionariess
+        fieldnames = ['food','rent','utilties','transportation','entertainment']
+        content = csv.DictReader(budget_csv,fieldnames)
         next(content)
-        for line in content:
-            limits.append(line)
-        return limits
+        for i in content:
+            return i
 class Graph:
     def __init__(self, pieces, labels,title):
         self.pieces = pieces
@@ -96,15 +95,12 @@ def visualization_menu():
 
     def budget_command():
         limits = get_budget("personal_finance_program\\CSV\\john123_budgets.csv")
-        actual_limits = []
-
-        for i in limits.values():
-            actual_limits.append(i)
-        labels = "Food","Rent","Utitlies","Transportation","Entertainment"
+        
+        labels = ["Food","Rent","Utitlies","Transportation","Entertainment"]
 
         
 
-        pie = Graph(limits,labels,title="Budget Categories")
+        pie = Graph(limits.values(),labels,title="Budget Categories")
         pie.make_pie_chart()
         
     explanation = ctk.CTkLabel(app,text="Welcome to the visualization menu. Click the button below to create a pie chart for your budget categories, or click the other button to create a pie chart for your expenses by category.")
