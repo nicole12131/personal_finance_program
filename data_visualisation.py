@@ -89,13 +89,17 @@ def visualization_menu():
         expenses = [food,rent,utilties,transportation,entertainment]
         labels = ["Food","Rent","Utilties","Transportation","Entertainment"]
 
-        pie = Graph(expenses,labels)
-        pie.make_pie_chart("Expenses by Category")
+        pie = Graph(expenses,labels,"Expenses by Category")
+        pie.make_pie_chart()
 
 
 
     def budget_command():
         limits = get_budget("personal_finance_program\\CSV\\john123_budgets.csv")
+        actual_limits = []
+
+        for i in limits.values():
+            actual_limits.append(i)
         labels = "Food","Rent","Utitlies","Transportation","Entertainment"
 
         
