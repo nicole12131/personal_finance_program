@@ -2,7 +2,7 @@ import csv
 import tkinter as tk
 from tkinter import messagebox
 
-FILE_PATH = "CSV/user_details.csv"
+FILE_PATH = "personal_finance_program\\CSV\\user_details.csv"
 
 
 def new_goal():
@@ -91,41 +91,42 @@ def saving_progress():
     writer.writerows(new_rows)
     file.close()
 
-window = tk.Tk()
-window.title("Saving Goal Tracker")
-window.geometry("350x400")
+if __name__ == "__main__":
+    window = tk.Tk()
+    window.title("Saving Goal Tracker")
+    window.geometry("350x400")
 
-# Name
-tk.Label(window, text="Name").pack()
-name_entry = tk.Entry(window)
-name_entry.pack()
+    # Name
+    tk.Label(window, text="Name").pack()
+    name_entry = tk.Entry(window)
+    name_entry.pack()
 
-# Goal
-tk.Label(window, text="Goal Amount").pack()
-goal_entry = tk.Entry(window)
-goal_entry.pack()
+    # Goal
+    tk.Label(window, text="Goal Amount").pack()
+    goal_entry = tk.Entry(window)
+    goal_entry.pack()
 
-# Already have savings?
-goal_type = tk.StringVar()
+    # Already have savings?
+    goal_type = tk.StringVar()
 
-tk.Label(window, text="Do you already have savings?").pack()
-tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
-tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
+    tk.Label(window, text="Do you already have savings?").pack()
+    tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
+    tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
 
-# Saved amount
-tk.Label(window, text="Saved Amount (if yes)").pack()
-saved_entry = tk.Entry(window)
-saved_entry.pack()
+    # Saved amount
+    tk.Label(window, text="Saved Amount (if yes)").pack()
+    saved_entry = tk.Entry(window)
+    saved_entry.pack()
 
-# Add savings
-tk.Label(window, text="Add Savings").pack()
-add_entry = tk.Entry(window)
-add_entry.pack()
+    # Add savings
+    tk.Label(window, text="Add Savings").pack()
+    add_entry = tk.Entry(window)
+    add_entry.pack()
 
-# Buttons
-tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
-tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
+    # Buttons
+    tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
+    tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
 
-tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
+    tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
 
-window.mainloop()
+    window.mainloop()

@@ -258,7 +258,7 @@ class TrackerApp:
             self.income_entries = []
 
         try:
-            with open("CSV/john123_expense.csv", "r") as f:
+            with open("personal_finance_program\\CSV\\john123_expense.csv", "r") as f:
                 reader = csv.DictReader(f)
                 self.expense_entries = list(reader)
                 for e in self.expense_entries:
@@ -320,12 +320,12 @@ class TrackerApp:
 
     #  SAVE 
     def save_data(self):
-        with open("CSV/john123_income.csv", "w", newline="") as f:
+        with open("personal_finance_program\\CSV\\john123_income.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "source"])
             writer.writeheader()
             writer.writerows(self.income_entries)
 
-        with open("CSV/john123_expense.csv", "w", newline="") as f:
+        with open("personal_finance_program\\CSV\\john123_expense.csv", "w", newline="") as f:
             writer = csv.DictWriter(f, fieldnames=["date", "amount", "category"])
             writer.writeheader()
             writer.writerows(self.expense_entries)

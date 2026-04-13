@@ -30,7 +30,7 @@ def set_limits():
         result = {"food" : result[0], "rent" : result[1], "utilities" : result[2], "transportation" : result[3], "entertainment" : result[4]}
         # if all the users inputs are valid save them to their budget csv
         fieldnames = ["food", "rent", "utilities", "transportation", "entertainment"]
-        with open("CSV/john123_budgets.csv", "w", newline = "") as budget_csv:
+        with open("personal_finance_program\\CSV\\john123_budgets.csv", "w", newline = "") as budget_csv:
             writer = csv.DictWriter(budget_csv, fieldnames = fieldnames)
             writer.writeheader()
             writer.writerow(result)
@@ -64,7 +64,7 @@ def set_limits():
 # Compare expenses function:
 def compare_expenses():
     def get_expense_data():
-        with open("CSV/john123_expense.csv", "r") as expenses_csv:
+        with open("personal_finance_program\\CSV\\john123_expense.csv", "r") as expenses_csv:
             # loops over csv and converts lines into dictionaries
             content = csv.reader(expenses_csv)
             row_count = sum(1 for row in content)
@@ -85,7 +85,7 @@ def compare_expenses():
                 headers = next(content)
             rows = []
             for line in content:
-                rows.append({headers[0] : line[0], headers[1] : line[1], headers[2] : line[2], headers[3] : line[3]})
+                rows.append({headers[0] : line[0], headers[1] : line[1], headers[2] : line[2]})
             return rows
     def get_amounts():
         food = 0
@@ -109,7 +109,7 @@ def compare_expenses():
                 entertainment += float(expense["amount"])
         return food, rent, utilities, transportation, entertainment
     def get_budget():
-        with open("CSV/john123_budgets.csv", "r") as budget_csv:
+        with open("personal_finance_program\\CSV\\john123_budgets.csv", "r") as budget_csv:
             content = csv.reader(budget_csv)
             row_count = sum(1 for row in content)
             budget_csv.seek(0)
@@ -155,7 +155,7 @@ def compare_expenses():
     transportation_label = tk.Label(root, text = f"Limit: {budget_limits[0]["transportation"]}, Spent: {expenses[3]}, Remaining: {difference[3]}")
     entertainment_label = tk.Label(root, text = f"Limit: {budget_limits[0]["entertainment"]}, Spent: {expenses[4]}, Remaining: {difference[4]}")
     quit_btn = tk.Button(root, text = "Quit", command = sys.exit)
-    guide.pack()
+    guide_label.pack()
     food_label.pack()
     rent_label.pack()
     utilities_label.pack()
@@ -164,4 +164,5 @@ def compare_expenses():
     quit_btn.pack()
     root.mainloop()
 
-compare_expenses()
+if __name__ == "__main__":
+    compare_expenses()
