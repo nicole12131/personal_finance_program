@@ -1,61 +1,51 @@
-# import csv
 import csv
+import tkinter as tk
+from tkinter import messagebox
 
-# Load data from the saving goal CSV file
-try:
-    file = open("CSV\\user_details.csv", "x", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    file.close()
-except:
-    pass  
+FILE_PATH = "CSV/user_details.csv"
 
-# create function for new saving goal
-# Ask user if they already have a saving goal
-    # if user say no
-        # ask for a new saving goal
-    # if user say yes
-        # Input current savings
-    # else
-        # print invalid choice 
+
 def new_goal():
-    name = input("Enter your name: ")
+    name = name_entry.get()
+    answer = goal_type.get()
 
-    answer = input("Do you already have a goal? (yes/no): ")
+    if name == "":
+        messagebox.showerror("Error", "Enter your name")
+        return
+
+    try:
+        goal = float(goal_entry.get())
+    except:
+        messagebox.showerror("Error", "Enter a valid goal")
+        return
 
     if answer == "no":
-        goal = float(input("Enter your goal amount: "))
         saved = 0
 
     elif answer == "yes":
-        goal = float(input("Enter your goal amount: "))
-        saved = float(input("Enter how much you already saved: "))
-
+        try:
+            saved = float(saved_entry.get())
+        except:
+            messagebox.showerror("Error", "Enter valid savings")
+            return
     else:
-        print("Invalid input")
+        messagebox.showerror("Error", "Select yes or no")
         return
 
-    file = open("CSV\\user_details.csv", "a", newline="")
+    file = open(FILE_PATH, "a", newline="")
     writer = csv.writer(file)
     writer.writerow([name, goal, saved])
     file.close()
 
-    print("Your goal was saved!")
+    messagebox.showinfo("Success", "Goal saved!")
 
-# create function for saving progress
-# calcualte progress towards the goal
 
-# if user is doing a good progress 
-    # print that they are doing a good progress
-
-# if user is doing a bad progress
-    # print options to improve savings to complete the goal
 def saving_progress():
-    name = input("Enter your name: ")
+    name = name_entry.get()
     found = False
     new_rows = []
 
-    file = open("CSV\\user_details.csv", "r")
+    file = open(FILE_PATH, "r")
     reader = csv.reader(file)
     next(reader)
 
@@ -66,61 +56,76 @@ def saving_progress():
             goal = float(row[1])
             saved = float(row[2])
 
-            print("Goal:", goal)
-            print("Saved:", saved)
+            try:
+                add = float(add_entry.get())
+            except:
+                messagebox.showerror("Error", "Enter valid amount")
+                return
 
-            add = float(input("How much do you want to add? "))
-            saved = saved + add
-
+            saved += add
             percent = (saved / goal) * 100
-            print("Progress:", round(percent, 2), "%")
 
             if percent >= 75:
-                print("Good job, almost there!")
+                msg = "Good job, almost there!"
             elif percent >= 40:
-                print("You're doing okay, keep going.")
+                msg = "You're doing okay, keep going."
             else:
-                print("You should try to save more.")
+                msg = "You should try to save more."
+
+            messagebox.showinfo("Progress",
+                                f"Goal: {goal}\nSaved: {saved}\nProgress: {round(percent,2)}%\n{msg}")
 
             row[2] = saved
 
         new_rows.append(row)
 
     file.close()
-# if a new profile is created add it to the csv file
-    # if user make progress add it to csv file
-    if found == False:
-        print("User not found")
+
+    if not found:
+        messagebox.showerror("Error", "User not found")
         return
 
-    file = open("CSV\\user_details.csv", "w", newline="")
+    file = open(FILE_PATH, "w", newline="")
     writer = csv.writer(file)
     writer.writerow(["name", "goal", "saved"])
     writer.writerows(new_rows)
     file.close()
 
-# create function to save progress between sessions 
-# if user if loged in print their current savings
-# if user want to log out save their progress to the saving goal CSV file
-# Save data to the saving goal CSV file
-# display final progress 
-def progress_sessions():
-    while True:
-        print("1. New Goal")
-        print("2. Add Savings")
-        print("3. Exit")
+window = tk.Tk()
+window.title("Saving Goal Tracker")
+window.geometry("350x400")
 
-        choice = input("Choose: ")
+# Name
+tk.Label(window, text="Name").pack()
+name_entry = tk.Entry(window)
+name_entry.pack()
 
-        if choice == "1":
-            new_goal()
+# Goal
+tk.Label(window, text="Goal Amount").pack()
+goal_entry = tk.Entry(window)
+goal_entry.pack()
 
-        elif choice == "2":
-            saving_progress()
+# Already have savings?
+goal_type = tk.StringVar()
 
-        elif choice == "3":
-            print("Bye")
-            break
+tk.Label(window, text="Do you already have savings?").pack()
+tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
+tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
 
-        else:
-            print("Not a valid option")
+# Saved amount
+tk.Label(window, text="Saved Amount (if yes)").pack()
+saved_entry = tk.Entry(window)
+saved_entry.pack()
+
+# Add savings
+tk.Label(window, text="Add Savings").pack()
+add_entry = tk.Entry(window)
+add_entry.pack()
+
+# Buttons
+tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
+tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
+
+tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
+
+window.mainloop()
