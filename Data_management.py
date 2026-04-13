@@ -6,11 +6,11 @@ FILE_PATH = "CSV/user_details.csv"
 
 
 def new_goal():
-    name = name_entry.get()
+    date = date_entry.get()
     answer = goal_type.get()
 
-    if name == "":
-        messagebox.showerror("Error", "Enter your name")
+    if date == "":
+        messagebox.showerror("Error", "Enter date")
         return
 
     try:
@@ -34,14 +34,16 @@ def new_goal():
 
     file = open(FILE_PATH, "a", newline="")
     writer = csv.writer(file)
-    writer.writerow([name, goal, saved])
+    writer.writerow([date, goal, saved])
     file.close()
 
     messagebox.showinfo("Success", "Goal saved!")
 
 
+
 def saving_progress():
-    name = name_entry.get()
+    visualization()
+    date = date_entry.get()
     found = False
     new_rows = []
 
@@ -50,7 +52,7 @@ def saving_progress():
     next(reader)
 
     for row in reader:
-        if row[0] == name:
+        if row[0] == date:
             found = True
 
             goal = float(row[1])
@@ -91,41 +93,42 @@ def saving_progress():
     writer.writerows(new_rows)
     file.close()
 
-window = tk.Tk()
-window.title("Saving Goal Tracker")
-window.geometry("350x400")
+def visualization():
+    window = tk.Tk()
+    window.title("Saving Goal Tracker")
+    window.geometry("350x400")
 
 # Name
-tk.Label(window, text="Name").pack()
-name_entry = tk.Entry(window)
-name_entry.pack()
+    tk.Label(window, text="date").pack()
+    date_entry = tk.Entry(window)
+    date_entry.pack()
 
 # Goal
-tk.Label(window, text="Goal Amount").pack()
-goal_entry = tk.Entry(window)
-goal_entry.pack()
+    tk.Label(window, text="Goal Amount").pack()
+    goal_entry = tk.Entry(window)
+    goal_entry.pack()
 
 # Already have savings?
-goal_type = tk.StringVar()
+    goal_type = tk.StringVar()
 
-tk.Label(window, text="Do you already have savings?").pack()
-tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
-tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
+    tk.Label(window, text="Do you already have savings?").pack()
+    tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
+    tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
 
 # Saved amount
-tk.Label(window, text="Saved Amount (if yes)").pack()
-saved_entry = tk.Entry(window)
-saved_entry.pack()
+    tk.Label(window, text="Saved Amount (if yes)").pack()
+    saved_entry = tk.Entry(window)
+    saved_entry.pack()
 
 # Add savings
-tk.Label(window, text="Add Savings").pack()
-add_entry = tk.Entry(window)
-add_entry.pack()
+    tk.Label(window, text="Add Savings").pack()
+    add_entry = tk.Entry(window)
+    add_entry.pack()
 
 # Buttons
-tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
-tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
+    tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
+    tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
 
-tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
+    tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
 
-window.mainloop()
+    window.mainloop()
