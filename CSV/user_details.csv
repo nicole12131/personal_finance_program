@@ -3,5 +3,9 @@ username,password,purchases_csv,income_csv,budgets_csv,currency_type
 name,ubnadbijdsaf732ok421983nga,file_path,file_path,file_path,
 =======
 username,password,expenses_path,incomes_path,savings_path,currency
+<<<<<<< HEAD
 name,ubnadbijdsaf732ok421983nga,file_path,file_path,file_path,USD
 >>>>>>> a018fd3bd915e2276319e48d0558072d4539e194
+=======
+name,ubnadbijdsaf732ok421983nga,file_path,file_path,file_path,USDnicole,10.0,0
+>>>>>>> 274dc4a757cb09049ac345a0ba5bd5d8d6ec91ec
