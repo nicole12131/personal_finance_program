@@ -1,14 +1,8 @@
 # import csv
 import csv
 
-# Load data from the saving goal CSV file
-try:
-    file = open("CSV\\user_details.csv", "x", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    file.close()
-except:
-    pass  
+FILE_PATH = "CSV/user_details.csv"
+
 
 # create function for new saving goal
 # Ask user if they already have a saving goal
@@ -99,28 +93,41 @@ def saving_progress():
     writer.writerows(new_rows)
     file.close()
 
-# create function to save progress between sessions 
-# if user if loged in print their current savings
-# if user want to log out save their progress to the saving goal CSV file
-# Save data to the saving goal CSV file
-# display final progress 
-def progress_sessions():
-    while True:
-        print("1. New Goal")
-        print("2. Add Savings")
-        print("3. Exit")
+window = tk.Tk()
+window.title("Saving Goal Tracker")
+window.geometry("350x400")
 
-        choice = input("Choose: ")
+# Name
+tk.Label(window, text="Name").pack()
+name_entry = tk.Entry(window)
+name_entry.pack()
 
-        if choice == "1":
-            new_goal()
+# Goal
+tk.Label(window, text="Goal Amount").pack()
+goal_entry = tk.Entry(window)
+goal_entry.pack()
 
-        elif choice == "2":
-            saving_progress()
+# Already have savings?
+goal_type = tk.StringVar()
 
-        elif choice == "3":
-            print("Bye")
-            break
+tk.Label(window, text="Do you already have savings?").pack()
+tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
+tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
 
-        else:
-            print("Not a valid option")
+# Saved amount
+tk.Label(window, text="Saved Amount (if yes)").pack()
+saved_entry = tk.Entry(window)
+saved_entry.pack()
+
+# Add savings
+tk.Label(window, text="Add Savings").pack()
+add_entry = tk.Entry(window)
+add_entry.pack()
+
+# Buttons
+tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
+tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
+
+tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
+
+window.mainloop()
