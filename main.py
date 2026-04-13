@@ -5,7 +5,6 @@ from Data_management import *
 from budgeting import *
 from data_visualisation import *
 from income import *
-from sign_in import *
 import tkinter as tk
 import sys
 
