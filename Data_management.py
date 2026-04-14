@@ -5,7 +5,7 @@ from tkinter import messagebox
 goal_data = {}
 
 
-def create_goal():
+def new_goal():
     date = date_entry.get()
 
     if date == "":
@@ -39,7 +39,7 @@ def create_goal():
     messagebox.showinfo("Success", "Goal created!")
 
 
-def add_savings():
+def saving_progress():
     date = date_entry.get()
 
     if date not in goal_data:
