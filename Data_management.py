@@ -114,11 +114,6 @@ def app():
     window.mainloop()
 
 
-<<<<<<< HEAD
-"""# run app
-app()"""
-=======
 # run app
 if __name__ == "__main__":
     app()
->>>>>>> 157ca904015dd4475b7c9e3dc108f8537998aaa8
