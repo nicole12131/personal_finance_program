@@ -26,7 +26,7 @@ def options(root):
     set_goal = tk.Button(root, text = "Set Savings Goal", command = new_goal)
             # run the set savings goal function
         # TRACK PROGRESS TO GOAL:
-    track_goal = tk.Button(root, text = "Track Progress to Goal", command = saving_progress)
+    track_goal = tk.Button(root, text = "Track Progress to Goal", command = app)
             # run the track progress to savings goal function
         # VIEW PIE CHART:
     visualize = tk.Button(root, text = "Visualize Data", command = visualization_menu)
