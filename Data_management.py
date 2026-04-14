@@ -107,8 +107,8 @@ def app():
     add_entry.pack()
 
     # Buttons
-    tk.Button(window, text="Create Goal", command=create_goal).pack(pady=10)
-    tk.Button(window, text="Add Savings", command=add_savings).pack(pady=10)
+    tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
+    tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
     tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
 
     window.mainloop()
