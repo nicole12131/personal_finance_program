@@ -1,122 +1,102 @@
-# import csv
-import csv
 import tkinter as tk
+from tkinter import messagebox
 
-FILE_PATH = "personal_finance_program\\CSV\\user_details.csv"
+# store data in memory
+goal_data = {}
 
 
-# create function for new saving goal
-# Ask user if they already have a saving goal
-    # if user say no
-        # ask for a new saving goal
-    # if user say yes
-        # Input current savings
-    # else
-        # print invalid choice 
-def new_goal():
-    name = input("Enter your name: ")
+def create_goal():
+    date = date_entry.get()
 
-    answer = input("Do you already have a goal? (yes/no): ")
+    if date == "":
+        messagebox.showerror("Error", "Enter date")
+        return
+
+    try:
+        goal = float(goal_entry.get())
+    except:
+        messagebox.showerror("Error", "Enter valid goal")
+        return
+
+    answer = goal_type.get()
 
     if answer == "no":
-        goal = float(input("Enter your goal amount: "))
         saved = 0
 
     elif answer == "yes":
-        goal = float(input("Enter your goal amount: "))
-        saved = float(input("Enter how much you already saved: "))
-
+        try:
+            saved = float(saved_entry.get())
+        except:
+            messagebox.showerror("Error", "Enter valid savings")
+            return
     else:
-        print("Invalid input")
+        messagebox.showerror("Error", "Select yes or no")
         return
 
-    file = open("CSV\\user_details.csv", "a", newline="")
-    writer = csv.writer(file)
-    writer.writerow([name, goal, saved])
-    file.close()
+    # save in dictionary
+    goal_data[date] = [goal, saved]
 
-    print("Your goal was saved!")
+    messagebox.showinfo("Success", "Goal created!")
 
-# create function for saving progress
-# calcualte progress towards the goal
 
-# if user is doing a good progress 
-    # print that they are doing a good progress
+def add_savings():
+    date = date_entry.get()
 
-# if user is doing a bad progress
-    # print options to improve savings to complete the goal
-def saving_progress():
-    name = input("Enter your name: ")
-    found = False
-    new_rows = []
-
-    file = open("CSV\\user_details.csv", "r")
-    reader = csv.reader(file)
-    next(reader)
-
-    for row in reader:
-        if row[0] == name:
-            found = True
-
-            goal = float(row[1])
-            saved = float(row[2])
-
-            print("Goal:", goal)
-            print("Saved:", saved)
-
-            add = float(input("How much do you want to add? "))
-            saved = saved + add
-
-            percent = (saved / goal) * 100
-            print("Progress:", round(percent, 2), "%")
-
-            if percent >= 75:
-                print("Good job, almost there!")
-            elif percent >= 40:
-                print("You're doing okay, keep going.")
-            else:
-                print("You should try to save more.")
-
-            row[2] = saved
-
-        new_rows.append(row)
-
-    file.close()
-# if a new profile is created add it to the csv file
-    # if user make progress add it to csv file
-    if found == False:
-        print("User not found")
+    if date not in goal_data:
+        messagebox.showerror("Error", "Goal not found")
         return
 
-    file = open("CSV\\user_details.csv", "w", newline="")
-    writer = csv.writer(file)
-    writer.writerow(["name", "goal", "saved"])
-    writer.writerows(new_rows)
-    file.close()
+    try:
+        add = float(add_entry.get())
+    except:
+        messagebox.showerror("Error", "Enter valid amount")
+        return
 
-if __name__ == "__main__":
+    goal, saved = goal_data[date]
+
+    saved += add
+    goal_data[date][1] = saved
+
+    percent = (saved / goal) * 100
+
+    if percent >= 75:
+        msg = "Good job, almost there!"
+    elif percent >= 40:
+        msg = "You're doing okay, keep going."
+    else:
+        msg = "You should try to save more."
+
+    messagebox.showinfo(
+        "Progress",
+        f"Goal: {goal}\nSaved: {saved}\nProgress: {round(percent,2)}%\n{msg}"
+    )
+
+
+def app():
+    global date_entry, goal_entry, saved_entry, add_entry, goal_type
+
     window = tk.Tk()
     window.title("Saving Goal Tracker")
     window.geometry("350x400")
 
-    # Name
-    tk.Label(window, text="Name").pack()
-    name_entry = tk.Entry(window)
-    name_entry.pack()
+    # Date
+    tk.Label(window, text="Date").pack()
+    date_entry = tk.Entry(window)
+    date_entry.pack()
 
     # Goal
     tk.Label(window, text="Goal Amount").pack()
     goal_entry = tk.Entry(window)
     goal_entry.pack()
 
-    # Already have savings?
+    # Savings option
     goal_type = tk.StringVar()
 
     tk.Label(window, text="Do you already have savings?").pack()
     tk.Radiobutton(window, text="Yes", variable=goal_type, value="yes").pack()
     tk.Radiobutton(window, text="No", variable=goal_type, value="no").pack()
 
-    # Saved amount
+    # Saved
     tk.Label(window, text="Saved Amount (if yes)").pack()
     saved_entry = tk.Entry(window)
     saved_entry.pack()
@@ -127,9 +107,12 @@ if __name__ == "__main__":
     add_entry.pack()
 
     # Buttons
-    tk.Button(window, text="Create Goal", command=new_goal).pack(pady=10)
-    tk.Button(window, text="Add Savings", command=saving_progress).pack(pady=10)
-
+    tk.Button(window, text="Create Goal", command=create_goal).pack(pady=10)
+    tk.Button(window, text="Add Savings", command=add_savings).pack(pady=10)
     tk.Button(window, text="Exit", command=window.quit).pack(pady=10)
 
     window.mainloop()
+
+
+# run app
+app()
