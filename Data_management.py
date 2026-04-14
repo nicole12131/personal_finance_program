@@ -114,5 +114,5 @@ def app():
     window.mainloop()
 
 
-# run app
-app()
+"""# run app
+app()"""
