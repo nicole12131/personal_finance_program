@@ -64,7 +64,7 @@ def set_limits():
 # Compare expenses function:
 def compare_expenses():
     def get_expense_data():
-        with open("personal_finance_program\\CSV\\john123_expense.csv", "r") as expenses_csv:
+        with open("CSV\\john123_expense.csv", "r") as expenses_csv:
             # loops over csv and converts lines into dictionaries
             content = csv.reader(expenses_csv)
             row_count = sum(1 for row in content)
@@ -109,7 +109,7 @@ def compare_expenses():
                 entertainment += float(expense["amount"])
         return food, rent, utilities, transportation, entertainment
     def get_budget():
-        with open("personal_finance_program\\CSV\\john123_budgets.csv", "r") as budget_csv:
+        with open("CSV\\john123_budgets.csv", "r") as budget_csv:
             content = csv.reader(budget_csv)
             row_count = sum(1 for row in content)
             budget_csv.seek(0)

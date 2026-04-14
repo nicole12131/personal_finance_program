@@ -23,7 +23,7 @@ def options(root):
     compare = tk.Button(root, text = "Compare Budget to Expenses", command = compare_expenses)
             # run the compare budget and expenses function
         # SET SAVINGS GOAL:
-    set_goal = tk.Button(root, text = "Set Savings Goal", command = new_goal)
+    set_goal = tk.Button(root, text = "Set Savings Goal", command = app)
             # run the set savings goal function
         # TRACK PROGRESS TO GOAL:
     track_goal = tk.Button(root, text = "Track Progress to Goal", command = app)
