@@ -88,8 +88,12 @@ def visualization_menu():
         expenses = [food,rent,utilties,transportation,entertainment]
         labels = ["Food","Rent","Utilties","Transportation","Entertainment"]
 
-        pie = Graph(expenses,labels,"Expenses by Category")
-        pie.make_pie_chart()
+        try:
+            pie = Graph(expenses,labels,"Expenses by Category")
+            pie.make_pie_chart()
+        except:
+            print("You have no expenses listed.")
+            
 
 
 
@@ -99,9 +103,12 @@ def visualization_menu():
         labels = ["Food","Rent","Utitlies","Transportation","Entertainment"]
 
         
-
-        pie = Graph(limits.values(),labels,title="Budget Categories")
-        pie.make_pie_chart()
+        try:
+            pie = Graph(limits.values(),labels,title="Budget Categories")
+            pie.make_pie_chart()
+        except:
+            print("An error has occured; You likely have not set your budget yet.")
+            
         
     explanation = ctk.CTkLabel(app,text="Welcome to the visualization menu. Click the button below to create a pie chart for your budget categories, or click the other button to create a pie chart for your expenses by category.")
     budget_button = ctk.CTkButton(app,text="Create Pie Chart for Budget Categories",command=budget_command,fg_color = "blue")
